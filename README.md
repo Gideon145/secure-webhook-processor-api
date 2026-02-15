@@ -1,10 +1,5 @@
 # Secure Webhook Processor API
 
-A production-ready FastAPI service that validates webhook signatures, stores events in PostgreSQL, and processes them asynchronously using background tasks.
-
-![Working Demo](screenshot.png)
-*Live demonstration showing successful HMAC signature validation, webhook acceptance, and real-time processing logs*
-
 ## Overview
 A production-ready FastAPI service that validates webhook signatures, stores events in PostgreSQL, and processes them asynchronously using background tasks.
 
@@ -51,16 +46,12 @@ curl -X POST http://localhost:8000/webhook \
 ## Protected dashboard
 `GET /events` requires a JWT Bearer token in the `Authorization` header.
 
-## What's in the screenshot
-The screenshot demonstrates the API in action:
-- **Left terminal**: Python script generating a valid HMAC-SHA256 signature for a test payload, followed by a curl command successfully posting to the `/webhook` endpoint
-- **Right panel**: Docker Compose logs showing:
-  - PostgreSQL database initialized and ready
-  - Uvicorn server running on port 8000
-  - Real-time request logs displaying multiple 401 errors (invalid signatures being rejected)
-  - One successful 202 Accepted response (valid signature accepted)
-
-This proves the HMAC validation is working correctly—rejecting bad signatures while accepting legitimate requests.
+## Demo validation
+The API demonstrates strong security in practice:
+- HMAC-SHA256 signature validation rejects all requests with invalid signatures (401 Unauthorized)
+- Valid signatures are accepted and processed asynchronously (202 Accepted)
+- PostgreSQL persists events reliably
+- Background tasks update event status from `received` → `processing` → `processed`
 
 ## Future improvements
 - Add robust JWT issuer/audience validation
